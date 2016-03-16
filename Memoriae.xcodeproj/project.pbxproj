@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		CA5973AD1C991A4000D43AB4 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA5973AC1C991A4000D43AB4 /* main.cpp */; };
+		CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B31C991B1100D43AB4 /* GLUT.framework */; };
+		CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B51C991B1900D43AB4 /* OpenGL.framework */; };
+		CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B71C991B2200D43AB4 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		CA5973A91C991A4000D43AB4 /* Memoriae */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Memoriae; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA5973AC1C991A4000D43AB4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CA5973B31C991B1100D43AB4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		CA5973B51C991B1900D43AB4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		CA5973B71C991B2200D43AB4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +38,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */,
+				CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */,
+				CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +50,9 @@
 		CA5973A01C991A3F00D43AB4 = {
 			isa = PBXGroup;
 			children = (
+				CA5973B71C991B2200D43AB4 /* OpenAL.framework */,
+				CA5973B51C991B1900D43AB4 /* OpenGL.framework */,
+				CA5973B31C991B1100D43AB4 /* GLUT.framework */,
 				CA5973AB1C991A4000D43AB4 /* Memoriae */,
 				CA5973AA1C991A4000D43AB4 /* Products */,
 			);
@@ -161,7 +173,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -198,7 +210,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
