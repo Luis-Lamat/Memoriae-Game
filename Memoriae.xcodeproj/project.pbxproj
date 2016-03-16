@@ -11,6 +11,7 @@
 		CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B31C991B1100D43AB4 /* GLUT.framework */; };
 		CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B51C991B1900D43AB4 /* OpenGL.framework */; };
 		CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B71C991B2200D43AB4 /* OpenAL.framework */; };
+		CA5973BB1C99219C00D43AB4 /* Memoriae.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA5973B91C99219B00D43AB4 /* Memoriae.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		CA5973B31C991B1100D43AB4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		CA5973B51C991B1900D43AB4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		CA5973B71C991B2200D43AB4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		CA5973B91C99219B00D43AB4 /* Memoriae.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memoriae.cpp; sourceTree = "<group>"; };
+		CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Memoriae.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				CA5973AC1C991A4000D43AB4 /* main.cpp */,
+				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
+				CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */,
 			);
 			path = Memoriae;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA5973BB1C99219C00D43AB4 /* Memoriae.cpp in Sources */,
 				CA5973AD1C991A4000D43AB4 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
