@@ -21,32 +21,33 @@ const int matrixSize = 10;
 const int startingMatrixSize = 3;
 
 typedef enum {
-    STATE_PLAYING,
-    STATE_PAUSED,
-    STATE_GAMEOVER,
+	STATE_PLAYING,
+	STATE_PAUSED,
+	STATE_GAMEOVER,
 } State;
 
 // Class definition
 class Memoriae {
-    
+	
 private:
-    // Attributes
-    int board[matrixSize][matrixSize];
-    int level;
-    int score;
-    State gameState;
-    
-    // Helper functions
-    void cleanBoard();
-    
+//	Attributes
+	int board[matrixSize][matrixSize];
+	int level;
+	int score;
+	State gameState;
+	
+//	Helper functions
+	void cleanBoard();
+	
 public:
-    Memoriae();      // Constructor
-    void start();    // Uses shuffle
-    void pause();    // Setter for the gameState
-    void getLevel(); // Getter for the level
-    void selectObjectAt(int row, int col); // Game mechanic
-    
-    int getActualSize() { return level + startingMatrixSize; };
-    
-    State getState();// Getter for the gameState
+	Memoriae();			// Constructor
+	void start();		// Uses shuffle
+	void pause();		// Setter for the gameState
+	void getLevel();		// Getter for the level
+	void selectObjectAt(int row, int col); // Game mechanic
+	
+	int getActualSize() { return level + startingMatrixSize; };
+	
+//	Getter for the gameState
+	State getState();
 };
