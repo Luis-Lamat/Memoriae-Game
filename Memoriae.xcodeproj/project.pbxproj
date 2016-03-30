@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		935247031C503053005AD9C9 /* libglfw.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 935247021C503053005AD9C9 /* libglfw.3.1.dylib */; };
-		936A33AD1C46D3AC00713A03 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936A33AB1C46D3AC00713A03 /* OpenGL.framework */; };
-		93A6165C1CA9FDEA00305CED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A616581CA9FDEA00305CED /* main.cpp */; };
-		93A616621CAA07C300305CED /* Memoriae.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A616611CAA07C300305CED /* Memoriae.cpp */; };
+		CA5973AD1C991A4000D43AB4 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA5973AC1C991A4000D43AB4 /* main.cpp */; };
+		CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B31C991B1100D43AB4 /* GLUT.framework */; };
+		CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B51C991B1900D43AB4 /* OpenGL.framework */; };
+		CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B71C991B2200D43AB4 /* OpenAL.framework */; };
+		CA5973BB1C99219C00D43AB4 /* Memoriae.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA5973B91C99219B00D43AB4 /* Memoriae.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		936A339A1C46C6FF00713A03 /* CopyFiles */ = {
+		CA5973A71C991A4000D43AB4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -26,121 +27,123 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		935247021C503053005AD9C9 /* libglfw.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.1.dylib; path = ../../../../usr/local/lib/libglfw.3.1.dylib; sourceTree = "<group>"; };
-		936A339C1C46C6FF00713A03 /* Memoriae */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Memoriae; sourceTree = BUILT_PRODUCTS_DIR; };
-		936A33AB1C46D3AC00713A03 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		93A616581CA9FDEA00305CED /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = Memoriae/main.cpp; sourceTree = SOURCE_ROOT; };
-		93A616611CAA07C300305CED /* Memoriae.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Memoriae.cpp; path = Memoriae/Memoriae.cpp; sourceTree = SOURCE_ROOT; };
-		93A616631CAA07CB00305CED /* Memoriae.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Memoriae.hpp; path = Memoriae/Memoriae.hpp; sourceTree = SOURCE_ROOT; };
+		CA5973A91C991A4000D43AB4 /* Memoriae */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Memoriae; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA5973AC1C991A4000D43AB4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CA5973B31C991B1100D43AB4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		CA5973B51C991B1900D43AB4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		CA5973B71C991B2200D43AB4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		CA5973B91C99219B00D43AB4 /* Memoriae.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memoriae.cpp; sourceTree = "<group>"; };
+		CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Memoriae.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		936A33991C46C6FF00713A03 /* Frameworks */ = {
+		CA5973A61C991A4000D43AB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				935247031C503053005AD9C9 /* libglfw.3.1.dylib in Frameworks */,
-				936A33AD1C46D3AC00713A03 /* OpenGL.framework in Frameworks */,
+				CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */,
+				CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */,
+				CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		936A33931C46C6FF00713A03 = {
+		CA5973A01C991A3F00D43AB4 = {
 			isa = PBXGroup;
 			children = (
-				935247021C503053005AD9C9 /* libglfw.3.1.dylib */,
-				936A33AB1C46D3AC00713A03 /* OpenGL.framework */,
-				936A339E1C46C6FF00713A03 /* Memoriae */,
-				936A339D1C46C6FF00713A03 /* Products */,
+				CA5973B71C991B2200D43AB4 /* OpenAL.framework */,
+				CA5973B51C991B1900D43AB4 /* OpenGL.framework */,
+				CA5973B31C991B1100D43AB4 /* GLUT.framework */,
+				CA5973AB1C991A4000D43AB4 /* Memoriae */,
+				CA5973AA1C991A4000D43AB4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		936A339D1C46C6FF00713A03 /* Products */ = {
+		CA5973AA1C991A4000D43AB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				936A339C1C46C6FF00713A03 /* Memoriae */,
+				CA5973A91C991A4000D43AB4 /* Memoriae */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		936A339E1C46C6FF00713A03 /* Memoriae */ = {
+		CA5973AB1C991A4000D43AB4 /* Memoriae */ = {
 			isa = PBXGroup;
 			children = (
-				93A616581CA9FDEA00305CED /* main.cpp */,
-				93A616611CAA07C300305CED /* Memoriae.cpp */,
-				93A616631CAA07CB00305CED /* Memoriae.hpp */,
+				CA5973AC1C991A4000D43AB4 /* main.cpp */,
+				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
+				CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */,
 			);
-			name = Memoriae;
-			path = prueba;
+			path = Memoriae;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		936A339B1C46C6FF00713A03 /* Memoriae */ = {
+		CA5973A81C991A4000D43AB4 /* Memoriae */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 936A33A31C46C6FF00713A03 /* Build configuration list for PBXNativeTarget "Memoriae" */;
+			buildConfigurationList = CA5973B01C991A4000D43AB4 /* Build configuration list for PBXNativeTarget "Memoriae" */;
 			buildPhases = (
-				936A33981C46C6FF00713A03 /* Sources */,
-				936A33991C46C6FF00713A03 /* Frameworks */,
-				936A339A1C46C6FF00713A03 /* CopyFiles */,
+				CA5973A51C991A4000D43AB4 /* Sources */,
+				CA5973A61C991A4000D43AB4 /* Frameworks */,
+				CA5973A71C991A4000D43AB4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Memoriae;
-			productName = prueba;
-			productReference = 936A339C1C46C6FF00713A03 /* Memoriae */;
+			productName = Memoriae;
+			productReference = CA5973A91C991A4000D43AB4 /* Memoriae */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		936A33941C46C6FF00713A03 /* Project object */ = {
+		CA5973A11C991A3F00D43AB4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = manolo;
+				ORGANIZATIONNAME = "Luis Alberto Lamadrid";
 				TargetAttributes = {
-					936A339B1C46C6FF00713A03 = {
-						CreatedOnToolsVersion = 7.2;
+					CA5973A81C991A4000D43AB4 = {
+						CreatedOnToolsVersion = 7.2.1;
 					};
 				};
 			};
-			buildConfigurationList = 936A33971C46C6FF00713A03 /* Build configuration list for PBXProject "Memoriae" */;
+			buildConfigurationList = CA5973A41C991A3F00D43AB4 /* Build configuration list for PBXProject "Memoriae" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 936A33931C46C6FF00713A03;
-			productRefGroup = 936A339D1C46C6FF00713A03 /* Products */;
+			mainGroup = CA5973A01C991A3F00D43AB4;
+			productRefGroup = CA5973AA1C991A4000D43AB4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				936A339B1C46C6FF00713A03 /* Memoriae */,
+				CA5973A81C991A4000D43AB4 /* Memoriae */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		936A33981C46C6FF00713A03 /* Sources */ = {
+		CA5973A51C991A4000D43AB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93A616621CAA07C300305CED /* Memoriae.cpp in Sources */,
-				93A6165C1CA9FDEA00305CED /* main.cpp in Sources */,
+				CA5973BB1C99219C00D43AB4 /* Memoriae.cpp in Sources */,
+				CA5973AD1C991A4000D43AB4 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		936A33A11C46C6FF00713A03 /* Debug */ = {
+		CA5973AE1C991A4000D43AB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -183,7 +186,7 @@
 			};
 			name = Debug;
 		};
-		936A33A21C46C6FF00713A03 /* Release */ = {
+		CA5973AF1C991A4000D43AB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -219,52 +222,44 @@
 			};
 			name = Release;
 		};
-		936A33A41C46C6FF00713A03 /* Debug */ = {
+		CA5973B11C991A4000D43AB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = /opt/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/lib,
-				);
-				PRODUCT_NAME = Memoriae;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		936A33A51C46C6FF00713A03 /* Release */ = {
+		CA5973B21C991A4000D43AB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = /opt/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/lib,
-				);
-				PRODUCT_NAME = Memoriae;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		936A33971C46C6FF00713A03 /* Build configuration list for PBXProject "Memoriae" */ = {
+		CA5973A41C991A3F00D43AB4 /* Build configuration list for PBXProject "Memoriae" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				936A33A11C46C6FF00713A03 /* Debug */,
-				936A33A21C46C6FF00713A03 /* Release */,
+				CA5973AE1C991A4000D43AB4 /* Debug */,
+				CA5973AF1C991A4000D43AB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		936A33A31C46C6FF00713A03 /* Build configuration list for PBXNativeTarget "Memoriae" */ = {
+		CA5973B01C991A4000D43AB4 /* Build configuration list for PBXNativeTarget "Memoriae" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				936A33A41C46C6FF00713A03 /* Debug */,
-				936A33A51C46C6FF00713A03 /* Release */,
+				CA5973B11C991A4000D43AB4 /* Debug */,
+				CA5973B21C991A4000D43AB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 936A33941C46C6FF00713A03 /* Project object */;
+	rootObject = CA5973A11C991A3F00D43AB4 /* Project object */;
 }
