@@ -14,6 +14,7 @@ void Memoriae::cleanBoard() {
             board[i][j] = _OFF;
         }
     }
+    // TODO: paint pattern with getActualSize() + level squares
 }
 
 Memoriae::Memoriae() {
@@ -23,23 +24,42 @@ Memoriae::Memoriae() {
     gameState = STATE_PLAYING;
 }
 
-void Memoriae::start() {
+void Memoriae::restart() {
     this->cleanBoard();
+    level = 0;
+    score = 0;
+    gameState = STATE_PLAYING;
 }
 
 void Memoriae::pause() {
-    this->gameState = STATE_PAUSED;
+    gameState = STATE_PAUSED;
 }
 
-State Memoriae::getState() {
-    return this->gameState;
+void Memoriae::unpause() {
+    gameState = STATE_PLAYING;
 }
 
-void Memoriae::selectObjectAt(int row, int col) {
+void Memoriae::gameOver() {
+    gameState = STATE_GAMEOVER;
+    printf("Game over :(\n");
+}
+
+void Memoriae::changeLevel() {
+    if (gameState != STATE_PLAYING) Error::notPlaying();
+    this->cleanBoard();
+    level++;
+}
+
+void Memoriae::selectSphereAt(int row, int col) {
+    if (gameState != STATE_PLAYING) Error::notPlaying();
     int mSize = this->getActualSize();
     if (row < 0 || row >= mSize || col < 0 || col >= mSize) {
-        printf("Error: matrix selection index out of bounds\n");
+        Error::outOfBounds(row, col);
+    }
+    if (board[row][col] == _OFF){
+        this->gameOver();
         return;
     }
-    board[row][col] = _ON;
+    score += (level + 1) * 5;
 }
+

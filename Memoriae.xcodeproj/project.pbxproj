@@ -27,6 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA1AC63F1CADA20100D8E247 /* Error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Error.hpp; sourceTree = "<group>"; };
 		CA5973A91C991A4000D43AB4 /* Memoriae */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Memoriae; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA5973AC1C991A4000D43AB4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		CA5973B31C991B1100D43AB4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -75,6 +76,7 @@
 				CA5973AC1C991A4000D43AB4 /* main.cpp */,
 				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
 				CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */,
+				CA1AC63F1CADA20100D8E247 /* Error.hpp */,
 			);
 			path = Memoriae;
 			sourceTree = "<group>";
@@ -255,6 +257,7 @@
 				CA5973B21C991A4000D43AB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

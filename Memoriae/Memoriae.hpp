@@ -10,6 +10,7 @@
 #define Memoriae_hpp
 
 #include <stdio.h>
+#include "Error.hpp"
 
 #endif /* Memoriae_hpp */
 
@@ -24,6 +25,7 @@ typedef enum {
     STATE_PLAYING,
     STATE_PAUSED,
     STATE_GAMEOVER,
+    STATE_WON
 } State;
 
 // Class definition
@@ -40,13 +42,20 @@ private:
     void cleanBoard();
     
 public:
-    Memoriae();      // Constructor
-    void start();    // Uses shuffle
-    void pause();    // Setter for the gameState
-    void getLevel(); // Getter for the level
-    void selectObjectAt(int row, int col); // Game mechanic
+    Memoriae();         // Constructor
+    void restart();     // Uses shuffle
+    void pause();       // Setter for the gameState (pause)
+    void unpause();     // Setter for the gameState (play)
+    void gameOver();    // Ending the game
+    void changeLevel(); // Changes level for the game
     
+    int getLevel()      { return level; };
     int getActualSize() { return level + startingMatrixSize; };
+    int getScore()      { return score; };
+    State getState()    { return gameState; };
     
-    State getState();// Getter for the gameState
+    // Complex methods
+    void selectSphereAt(int row, int col); // Game mechanic
+
 };
+
