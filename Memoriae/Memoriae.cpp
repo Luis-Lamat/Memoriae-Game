@@ -18,10 +18,10 @@ void Memoriae::cleanBoard() {
 }
 
 Memoriae::Memoriae() {
-    this->cleanBoard();
-    level = 0;
-    score = 0;
-    gameState = STATE_PLAYING;
+	this->cleanBoard();
+	level = 0;
+	score = 0;
+	gameState = STATE_PLAYING;
 }
 
 void Memoriae::restart() {

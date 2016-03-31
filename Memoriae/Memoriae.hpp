@@ -30,17 +30,17 @@ typedef enum {
 
 // Class definition
 class Memoriae {
-    
+	
 private:
-    // Attributes
-    int board[matrixSize][matrixSize];
-    int level;
-    int score;
-    State gameState;
-    
-    // Helper functions
-    void cleanBoard();
-    
+//	Attributes
+	int board[matrixSize][matrixSize];
+	int level;
+	int score;
+	State gameState;
+	
+//	Helper functions
+	void cleanBoard();
+	
 public:
     Memoriae();         // Constructor
     void restart();     // Uses shuffle
@@ -56,6 +56,5 @@ public:
     
     // Complex methods
     void selectSphereAt(int row, int col); // Game mechanic
-
 };
 
