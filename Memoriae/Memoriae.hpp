@@ -10,7 +10,12 @@
 #define Memoriae_hpp
 
 #include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 #include "Error.hpp"
+using namespace std;
 
 #endif /* Memoriae_hpp */
 
@@ -32,13 +37,13 @@ typedef enum {
 class Memoriae {
 	
 private:
-//	Attributes
-	int board[matrixSize][matrixSize];
+    // Attributes
+	bool board[matrixSize][matrixSize];
 	int level;
 	int score;
 	State gameState;
 	
-//	Helper functions
+    // Helper functions
 	void cleanBoard();
 	
 public:
@@ -48,13 +53,17 @@ public:
     void unpause();     // Setter for the gameState (play)
     void gameOver();    // Ending the game
     void changeLevel(); // Changes level for the game
+    void newBoard();    // Resets board and creates new pattern
     
     int getLevel()      { return level; };
     int getActualSize() { return level + startingMatrixSize; };
     int getScore()      { return score; };
     State getState()    { return gameState; };
     
-    // Complex methods
-    void selectSphereAt(int row, int col); // Game mechanic
+    // Method to check if an object is ON while painting them
+    bool isSet(int row, int col) { return board[row][col]; };
+    
+    // Method to choose a board object
+    void selectSphereAt(int row, int col);
 };
 

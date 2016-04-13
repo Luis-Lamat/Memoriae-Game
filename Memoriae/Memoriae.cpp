@@ -8,24 +8,47 @@
 
 #include "Memoriae.hpp"
 
-void Memoriae::cleanBoard() {
-    for (int i = 0; i < matrixSize; i++) {
-        for (int j = 0; j < matrixSize; j++) {
-            board[i][j] = _OFF;
+int myrandom (int i) { return rand()%i; }
+
+void Memoriae::newBoard() {
+    
+    int realSize = this->getActualSize();
+    int count = realSize + (level * 2);
+    int it = 0;
+    
+    // Getting the random generated solution
+    vector<bool> v (realSize * realSize, false);
+    for (int i = 0; i < count; i++) { v[i] = true; }
+    random_shuffle(v.begin(), v.end(), myrandom);
+    
+    printf("\nSolution Matrix:");
+    for (int i = 0; i < realSize; i++) {
+        printf("\n");
+        for (int j = 0; j < realSize; j++) {
+            if (v[it++]) {
+                board[i][j] = _ON;
+                count--;
+            } else {
+                board[i][j] = _OFF;
+            }
+            printf("%d ", board[i][j]);
         }
     }
-    // TODO: paint pattern with getActualSize() + level squares
 }
 
 Memoriae::Memoriae() {
-	this->cleanBoard();
+    // seeding the random numbers
+    srand ( unsigned (time(0)) );
+    
+    // constructing
+	this->newBoard();
 	level = 0;
 	score = 0;
 	gameState = STATE_PLAYING;
 }
 
 void Memoriae::restart() {
-    this->cleanBoard();
+    this->newBoard();
     level = 0;
     score = 0;
     gameState = STATE_PLAYING;
@@ -46,7 +69,7 @@ void Memoriae::gameOver() {
 
 void Memoriae::changeLevel() {
     if (gameState != STATE_PLAYING) Error::notPlaying();
-    this->cleanBoard();
+    this->newBoard();
     level++;
 }
 
