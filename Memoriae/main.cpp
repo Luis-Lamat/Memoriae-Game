@@ -94,7 +94,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
             
             // paint the required solution
             if (game.isSet(i, j) && seconds >= 2 && seconds <= 4) {
-                glColor3f(0, 0, 0);
+                glColor3f(1, 0, 0);
             } else {
                 glColor3f(1, 1, 1);
             }
@@ -124,7 +124,7 @@ void mouseMoved(int x, int y){
 }
 
 void init() {
-	glClearColor(0.2039, 0.6588, 0.3254, 1.0);
+	glClearColor(0, 0, 0, 1.0);
 	glColor3f(0, 0, 0);
 	
 	glEnable(GL_DEPTH_TEST);
