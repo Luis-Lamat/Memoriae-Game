@@ -31,8 +31,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		938F18CD1CC0866F007AE65C /* concrete.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = concrete.jpg; sourceTree = "<group>"; };
-		938F18CE1CC087BF007AE65C /* redconcrete.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redconcrete.jpg; sourceTree = "<group>"; };
+		93ED94761CC1AE680015969B /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		93ED94771CC1AE680015969B /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
+		93ED94781CC1AE680015969B /* purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purple.png; sourceTree = "<group>"; };
+		93ED94791CC1AE680015969B /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
 		93F2BEA21CB0467B00EBCDD9 /* image_DXT.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
 		93F2BEA31CB0467B00EBCDD9 /* image_DXT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
 		93F2BEA41CB0467B00EBCDD9 /* image_helper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
@@ -108,11 +110,13 @@
 			children = (
 				93F2BEA11CB0467B00EBCDD9 /* SOIL */,
 				CA5973AC1C991A4000D43AB4 /* main.cpp */,
-				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
 				CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */,
+				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
 				CA1AC63F1CADA20100D8E247 /* Error.hpp */,
-				938F18CD1CC0866F007AE65C /* concrete.jpg */,
-				938F18CE1CC087BF007AE65C /* redconcrete.jpg */,
+				93ED94761CC1AE680015969B /* bg.png */,
+				93ED94771CC1AE680015969B /* green.png */,
+				93ED94781CC1AE680015969B /* purple.png */,
+				93ED94791CC1AE680015969B /* red.png */,
 			);
 			path = Memoriae;
 			sourceTree = "<group>";
