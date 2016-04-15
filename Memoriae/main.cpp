@@ -40,7 +40,7 @@ const float Y_MAX = 6.0, Y_MIN = -6.0;
 string fullPath = __FILE__;
 
 // Game logic helpers
-int seconds = 0;
+int seconds = 0, currentLevel = 0;
 bool selected[10][10] = {0};
 
 // Game view matrix sizes (pixels)
@@ -53,10 +53,34 @@ Memoriae game;
 
 #pragma mark - Functions
 /* ------------------------------- Functions -------------------------------- */
+void cleanSelectedMatrix() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++)
+            selected[i][j] = false;
+    }
+}
+
 void timer(int value) {
 	glutPostRedisplay();
+    if (currentLevel != game.getLevel()) {
+        currentLevel = game.getLevel();
+        seconds = 0;
+        cleanSelectedMatrix();
+    }
 	seconds++;
-	glutTimerFunc(1000, timer, 0);
+	glutTimerFunc(10, timer, 0);
+}
+
+void draw3dString (void *font, char *str, float x, float y, float scale) {
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(x, y, 0);
+    glScaled(scale, scale, scale);
+    glColor3f(1, 1, 1);
+    for (int i = 0; str[i] != '\0'; i++) {
+        glutStrokeCharacter(font, str[i]);
+    }
+    glPopMatrix();
 }
 
 void resetWindowVars(int w, int h){
@@ -118,7 +142,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 		for (int j=0; j < spheresPerRow; j++) {
 			
 			// select texture to paint the required solution
-			if (game.isSet(i, j) && seconds >= 2 && seconds <= 4) {
+			if ((game.isSet(i, j) && seconds >= 100 && seconds <= 300) || selected[i][j]) {
 				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_SELECTED]);
 			} else {
 				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
@@ -140,9 +164,16 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 	glDisable(GL_TEXTURE_GEN_T);
 }
 
+void drawLevelAndScore() {
+    char score[100] = "";
+    sprintf(score, "Nivel: %d", game.getLevel() + 1);
+    draw3dString(GLUT_STROKE_ROMAN, score, -10.8, 7, 0.008);
+}
+
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+    
+    drawLevelAndScore();
 	int spheres = game.getActualSize();
 	paintSpheres(spheres, spheres, fmin(X_MAX, Y_MAX));
 	
@@ -157,6 +188,8 @@ void mouseClicked(int button, int state, int x, int y){
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
         translateClickToCoordinates(x, y);
         printf("Clicked -> Row: %d, Col: %d\n", y, x);
+        game.selectSphereAt(y,x);
+        selected[y][x] = true;
     }
 }
 
@@ -194,7 +227,7 @@ int main(int argc, char** argv) {
     
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);
-	glutTimerFunc(1000, timer, 0);
+	glutTimerFunc(10, timer, 0);
 
 	init();
 	glutMainLoop();

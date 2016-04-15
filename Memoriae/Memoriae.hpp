@@ -41,6 +41,7 @@ private:
 	bool board[matrixSize][matrixSize];
 	int level;
 	int score;
+    int tries;
 	State gameState;
 	
     // Helper functions

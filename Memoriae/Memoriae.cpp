@@ -13,6 +13,7 @@ int myrandom (int i) { return rand()%i; }
 void Memoriae::newBoard() {
     
     int realSize = this->getActualSize();
+    printf("Size: %d", realSize);
     int count = realSize + (level * 2);
     int it = 0;
     
@@ -45,6 +46,7 @@ Memoriae::Memoriae() {
 	this->newBoard();
 	level = 0;
 	score = 0;
+    tries = 0;
 	gameState = STATE_PLAYING;
 }
 
@@ -52,6 +54,7 @@ void Memoriae::restart() {
     this->newBoard();
     level = 0;
     score = 0;
+    tries = 0;
     gameState = STATE_PLAYING;
 }
 
@@ -70,8 +73,10 @@ void Memoriae::gameOver() {
 
 void Memoriae::changeLevel() {
     if (gameState != STATE_PLAYING) Error::notPlaying();
-    this->newBoard();
+    tries = 0;
     level++;
+    this->newBoard();
+    printf("Level changed to: %d", level);
 }
 
 void Memoriae::selectSphereAt(int row, int col) {
@@ -85,5 +90,9 @@ void Memoriae::selectSphereAt(int row, int col) {
         return;
     }
     score += (level + 1) * 5;
+    tries++;
+    if (tries == this->getActualSize() + (level * 2)) {
+        this->changeLevel();
+    }
 }
 
