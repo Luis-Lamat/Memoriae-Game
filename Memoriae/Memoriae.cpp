@@ -34,6 +34,7 @@ void Memoriae::newBoard() {
             printf("%d ", board[i][j]);
         }
     }
+    printf("\n");
 }
 
 Memoriae::Memoriae() {

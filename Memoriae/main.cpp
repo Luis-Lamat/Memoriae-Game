@@ -33,8 +33,14 @@ const float Y_MAX = 6.0, Y_MIN = -6.0;
 string fullPath = __FILE__;
 GLuint texture;
 
+// Game logic helpers
 int seconds = 0;
-bool selected[7][7];
+bool selected[10][10] = {0};
+
+// Game view matrix sizes (pixels)
+float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
+float initialX = sliceX, finalX = sliceX * 3;
+float initialY = sliceY, finalY = sliceY * 5;
 
 // Game object
 Memoriae game;
@@ -47,9 +53,16 @@ void timer(int value) {
 	glutTimerFunc(1000, timer, 0);
 }
 
+void resetWindowVars(int w, int h){
+    screenWidth = w;
+    screenHeight = h;
+    sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
+    initialX = sliceX, finalX = sliceX * 3;
+    initialY = sliceY, finalY = sliceY * 5;
+}
+
 void reshape(int w, int h) {
-	screenWidth = w;
-	screenHeight = h;
+    resetWindowVars(w, h);
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -57,6 +70,16 @@ void reshape(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0, 0, 1.1, 0, 0, 0, 0, 1, 0);
+}
+
+void translateClickToCoordinates(int &x, int &y){
+    float ball_num = game.getActualSize();
+    float relativeSizeX = finalX - initialX;
+    float relativeSizeY = finalY - initialY;
+    float relativeSliceX = relativeSizeX / ball_num;
+    float relativeSliceY = relativeSizeY / ball_num;
+    x -= initialX; x /= relativeSliceX;
+    y -= initialY; y /= relativeSliceY;
 }
 
 void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
@@ -123,6 +146,13 @@ void mouseMoved(int x, int y){
     // printf("Moved -> X: %d, Y: %d\n", x, y);
 }
 
+void mouseClicked(int button, int state, int x, int y){
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+        translateClickToCoordinates(x, y);
+        printf("Clicked -> Row: %d, Col: %d\n", y, x);
+    }
+}
+
 void init() {
 	glClearColor(0, 0, 0, 1.0);
 	glColor3f(0, 0, 0);
@@ -150,6 +180,8 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Memoriae");
     
     glutPassiveMotionFunc(mouseMoved);
+    glutMouseFunc(mouseClicked);
+    
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);
 	glutTimerFunc(1000, timer, 0);
