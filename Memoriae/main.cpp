@@ -185,7 +185,7 @@ void mouseMoved(int x, int y){
 }
 
 void mouseClicked(int button, int state, int x, int y){
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && seconds > 300){
         translateClickToCoordinates(x, y);
         printf("Clicked -> Row: %d, Col: %d\n", y, x);
         game.selectSphereAt(y,x);

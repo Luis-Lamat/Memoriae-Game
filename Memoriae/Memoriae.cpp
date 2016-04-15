@@ -76,7 +76,7 @@ void Memoriae::changeLevel() {
     tries = 0;
     level++;
     this->newBoard();
-    printf("Level changed to: %d", level);
+    printf("Level changed to: %d\n", level);
 }
 
 void Memoriae::selectSphereAt(int row, int col) {
