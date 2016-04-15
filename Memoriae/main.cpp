@@ -24,6 +24,13 @@
 
 using namespace std;
 
+#pragma mark - Textures
+/* ------------------------------- Textures --------------------------------- */
+const int NUM_TEXTURES = 2;
+const int SPHERE_DEFAULT = 0;
+const int SPHERE_SELECTED = 1;
+GLuint textures[NUM_TEXTURES];
+
 #pragma mark - Global Variables
 /* --------------------------- Global Variables ----------------------------- */
 // Screen and Frustum values
@@ -31,7 +38,6 @@ int screenWidth = 800, screenHeight = 600;
 const float X_MAX = 8.0, X_MIN = -8.0;
 const float Y_MAX = 6.0, Y_MIN = -6.0;
 string fullPath = __FILE__;
-GLuint texture;
 
 // Game logic helpers
 int seconds = 0;
@@ -49,7 +55,7 @@ Memoriae game;
 /* ------------------------------- Functions -------------------------------- */
 void timer(int value) {
 	glutPostRedisplay();
-    seconds++;
+	seconds++;
 	glutTimerFunc(1000, timer, 0);
 }
 
@@ -85,45 +91,46 @@ void translateClickToCoordinates(int &x, int &y){
 void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 	int maxSpheres = fmax(spheresPerRow, spheresPerColumn);
 	float radius = maxWidth/maxSpheres;
-    
-    // Cuando se desconocen los vertices del objeto
-    // Selecciona la textura
+
+	// When the object's vertices are unknown
+	// Select texture
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 	glEnable(GL_TEXTURE_GEN_S);
 	glEnable(GL_TEXTURE_GEN_T);
-	
+
 	glPushMatrix();
 
-    // Rotate board to match solution...
-    glRotated(180, 0, 0, 0);
-    // center all spheres
+	// Rotate board to match solution...
+	glRotated(180, 0, 0, 0);
+	// center all spheres
 	glTranslatef(-maxWidth*((float)spheresPerRow/maxSpheres),
-                 -maxWidth*((float)spheresPerColumn/maxSpheres),
-                 0);
-    // scale spheres on Z so they don't distort
+				 -maxWidth*((float)spheresPerColumn/maxSpheres),
+				 0);
+	// scale spheres on Z so they don't distort
 	glScalef(1, 1, 0.1);
-    
+
 	for (int i=0; i < spheresPerColumn; i++) {
 		glPushMatrix();
-		glTranslatef(radius, i*(2*radius), 0);//starting position for each row
+		glTranslatef(radius, i*(2*radius), 0);		// starting position for each row
 		for (int j=0; j < spheresPerRow; j++) {
-            glPushMatrix();
-            glTranslatef(j*(2*radius), radius, 0);// starting position for each column
-            glScalef(0.7, 0.7, 0.7);              // make spheres smaller so they don't touch
-            
-            // paint the required solution
-            if (game.isSet(i, j) && seconds >= 2 && seconds <= 4) {
-                glColor3f(1, 0, 0);
-            } else {
-                glColor3f(1, 1, 1);
-            }
-            
-            glutSolidSphere(radius, 30, 30);
-            glPopMatrix();
+			
+			// select texture to paint the required solution
+			if (game.isSet(i, j) && seconds >= 2 && seconds <= 4) {
+				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_SELECTED]);
+			} else {
+				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
+			}
+			
+			glPushMatrix();
+			glTranslatef(j*(2*radius), radius, 0);	// starting position for each column
+			glScalef(0.7, 0.7, 0.7);				// make spheres smaller so they don't touch
+
+			glutSolidSphere(radius, 30, 30);
+			
+			glPopMatrix();
 		}
 		glPopMatrix();
 	}
@@ -136,14 +143,14 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-    int spheres = game.getActualSize();
+	int spheres = game.getActualSize();
 	paintSpheres(spheres, spheres, fmin(X_MAX, Y_MAX));
 	
 	glutSwapBuffers();
 }
 
 void mouseMoved(int x, int y){
-    // printf("Moved -> X: %d, Y: %d\n", x, y);
+	// printf("Moved -> X: %d, Y: %d\n", x, y);
 }
 
 void mouseClicked(int button, int state, int x, int y){
@@ -159,17 +166,20 @@ void init() {
 	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, &texture);
+	glGenTextures(NUM_TEXTURES, textures);
 	
-    // remove "main.cpp" from path
+	// remove "main.cpp" from path
 	for (int i = (int)fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
 		fullPath.erase(i,1);
 	}
 	
-    // Load texture
+	// Load textures
 	char  path[200];
-	sprintf(path,"%s%s", fullPath.c_str() , "img_test.png");
-	texture = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	sprintf(path,"%s%s", fullPath.c_str() , "concrete.jpg");
+	textures[SPHERE_DEFAULT] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	
+	sprintf(path,"%s%s", fullPath.c_str() , "redconcrete.jpg");
+	textures[SPHERE_SELECTED] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 }
 
 int main(int argc, char** argv) {
@@ -185,9 +195,9 @@ int main(int argc, char** argv) {
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);
 	glutTimerFunc(1000, timer, 0);
-    
+
 	init();
 	glutMainLoop();
-	
+
 	return 0;
 }
