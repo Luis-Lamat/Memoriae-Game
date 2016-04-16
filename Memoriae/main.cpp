@@ -26,11 +26,12 @@ using namespace std;
 
 #pragma mark - Textures
 /* ------------------------------- Textures --------------------------------- */
-const int NUM_TEXTURES = 4;
+const int NUM_TEXTURES = 5;
 const int MAIN_MENU = 0;
 const int SPHERE_DEFAULT = 1;
 const int SPHERE_SELECTED = 2;
 const int SPHERE_WRONG = 3;
+const int GAME_OVER = 4;
 GLuint textures[NUM_TEXTURES];
 
 #pragma mark - Global Variables
@@ -122,6 +123,24 @@ void translateClickToCoordinates(int &x, int &y){
     y -= initialY; y /= relativeSliceY;
 }
 
+void addLights() {
+	float mat[4];
+	mat[0] = 0030;
+	mat[1] = 0030;
+	mat[2] = 0030;
+	mat[3] = 1;
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat);
+	mat[0] = 0.1;
+	mat[1] = 0.1;
+	mat[2] = 0.1;
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat);
+	mat[0] = 0.4;
+	mat[1] = 0.4;
+	mat[2] = 0.4;
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat);
+	glMaterialf(GL_FRONT, GL_SHININESS, .078125 * 128.0);
+}
+
 void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 	int maxSpheres = fmax(spheresPerRow, spheresPerColumn);
 	float radius = maxWidth/maxSpheres;
@@ -163,7 +182,10 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 			glPushMatrix();
 			glTranslatef(j*(2*radius), radius, 0);	// starting position for each column
 			glScalef(0.7, 0.7, 0.7);				// make spheres smaller so they don't touch
-
+			
+			
+			addLights();
+			
 			glutSolidSphere(radius, 30, 30);
 			
 			glPopMatrix();
@@ -182,43 +204,54 @@ void drawLevelAndScore() {
     draw3dString(GLUT_STROKE_ROMAN, score, -10.8, 7, 0.008);
 }
 
+void drawSpheresAndText() {
+	drawLevelAndScore();
+	int spheres = game.getActualSize();
+	paintSpheres(spheres, spheres, fmin(X_MAX, Y_MAX));
+}
+
+void drawFullScreenTexture(int texture) {
+	glBindTexture(GL_TEXTURE_2D, textures[texture]);
+	glColor3f(1, 1, 1);
+	float z = 0.35;
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 1);
+	glVertex3f(-8, -6, z);
+	glTexCoord2f(1, 1);
+	glVertex3f(8, -6, z);
+	glTexCoord2f(1, 0);
+	glVertex3f(8, 6, z);
+	glTexCoord2f(0, 0);
+	glVertex3f(-8, 6, z);
+	glEnd();
+}
+
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	switch (game.getState()) {
-	case STATE_PLAYING:{
-		drawLevelAndScore();
-		int spheres = game.getActualSize();
-		paintSpheres(spheres, spheres, fmin(X_MAX, Y_MAX));
-		}break;
+	case STATE_PLAYING:
+		drawSpheresAndText();
+		break;
 		
-	case STATE_PAUSED:{
-		glBindTexture(GL_TEXTURE_2D, textures[MAIN_MENU]);
-		glColor3f(1, 1, 1);
-		float z = 0.35;
-		glBegin(GL_QUADS);
-		//Asignar la coordenada de textura 0,0 al vertice
-		glTexCoord2f(0, 1);
-		glVertex3f(-8, -6, z);
-		//Asignar la coordenada de textura 1,0 al vertice
-		glTexCoord2f(1, 1);
-		glVertex3f(8, -6, z);
-		//Asignar la coordenada de textura 1,1 al vertice
-		glTexCoord2f(1, 0);
-		glVertex3f(8, 6, z);
-		//Asignar la coordenada de textura 0,1 al vertice
-		glTexCoord2f(0, 0);
-		glVertex3f(-8, 6, z);
-		glEnd();
-		}break;
+	case STATE_PAUSED:
+		drawFullScreenTexture(MAIN_MENU);
+		break;
 	
 	case STATE_WON:{
 		printf("");
 		}break;
 	
-	case STATE_GAMEOVER:{
-		printf("");
-		}break;
+	case STATE_GAMEOVER:
+		if (seconds < 330) {
+			drawSpheresAndText();
+		} else if (seconds < 400) {
+			cleanSelectedMatrix();
+			drawFullScreenTexture(GAME_OVER);
+		} else {
+			game.pause();
+		}
+		break;
 	}
 	
 	glutSwapBuffers();
@@ -238,6 +271,9 @@ void mouseClicked(int button, int state, int x, int y){
 			printf("Clicked -> Row: %d, Col: %d\n", y, x);
 			game.selectSphereAt(y,x);
 			selected[y][x] = true;
+			if (game.getState() == STATE_GAMEOVER) {
+				seconds = 301;
+			}
 		}
 	} else if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (game.getState() == STATE_PAUSED) {
@@ -249,10 +285,34 @@ void mouseClicked(int button, int state, int x, int y){
 	}
 }
 
+unsigned int loadTextureFromPath(char *path) {
+	return SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+}
+
 void init() {
 	game.pause();
-	glClearColor(0, 0, 0, 1.0);
+	glClearColor(0, 0, 0, 1);
 	glColor3f(0, 0, 0);
+	
+	GLfloat ambient[] = {1, 1, 1, 1};
+	GLfloat diffuse[] = {1, 1, 1, 1};
+	GLfloat position[] = {0, 3, 3, 0};
+	
+	GLfloat lmodel_ambient[] = {10, 10, 10, 1};
+	GLfloat local_view[] = {0};
+	
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+	glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
+	
+	glFrontFace(GL_CW);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_AUTO_NORMAL);
+	glEnable(GL_NORMALIZE);
+	glDepthFunc(GL_LESS);
 	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -264,18 +324,21 @@ void init() {
 	}
 	
 	// Load textures
-	char  path[200];
-	sprintf(path,"%s%s", fullPath.c_str() , "bg.png");
-	textures[MAIN_MENU] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	char path[200];
+	sprintf(path,"%s%s", fullPath.c_str(), "bg.png");
+	textures[MAIN_MENU] = loadTextureFromPath(path);
 	
-	sprintf(path,"%s%s", fullPath.c_str() , "purple.png");
-	textures[SPHERE_DEFAULT] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	sprintf(path,"%s%s", fullPath.c_str(), "purple.png");
+	textures[SPHERE_DEFAULT] = loadTextureFromPath(path);
 	
-	sprintf(path,"%s%s", fullPath.c_str() , "green.png");
-	textures[SPHERE_SELECTED] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	sprintf(path,"%s%s", fullPath.c_str(), "green.png");
+	textures[SPHERE_SELECTED] = loadTextureFromPath(path);
 	
-	sprintf(path,"%s%s", fullPath.c_str() , "red.png");
-	textures[SPHERE_WRONG] = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	sprintf(path,"%s%s", fullPath.c_str(), "red.png");
+	textures[SPHERE_WRONG] = loadTextureFromPath(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str(), "game over.png");
+	textures[GAME_OVER] = loadTextureFromPath(path);
 }
 
 int main(int argc, char** argv) {
