@@ -198,6 +198,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 	
 	glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drawLevelAndScore() {
@@ -213,6 +214,7 @@ void drawSpheresAndText() {
 }
 
 void drawFullScreenTexture(int texture) {
+	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textures[texture]);
 	glColor3f(1, 1, 1);
 	float z = 0.35;
@@ -226,6 +228,7 @@ void drawFullScreenTexture(int texture) {
 	glTexCoord2f(0, 0);
 	glVertex3f(-8, 6, z);
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void display() {
