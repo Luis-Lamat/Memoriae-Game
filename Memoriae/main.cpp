@@ -26,12 +26,13 @@ using namespace std;
 
 #pragma mark - Textures
 /* ------------------------------- Textures --------------------------------- */
-const int NUM_TEXTURES = 5;
+const int NUM_TEXTURES = 6;
 const int MAIN_MENU = 0;
 const int SPHERE_DEFAULT = 1;
 const int SPHERE_SELECTED = 2;
 const int SPHERE_WRONG = 3;
 const int GAME_OVER = 4;
+const int CHECKMARK = 5;
 GLuint textures[NUM_TEXTURES];
 
 #pragma mark - Global Variables
@@ -44,7 +45,7 @@ string fullPath = __FILE__;
 
 // Game logic helpers
 int seconds = 0, currentLevel = 0;
-bool selected[10][10] = {0};
+bool selected[10][10] = {0}, changingLevel;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -66,11 +67,19 @@ void cleanSelectedMatrix() {
 
 void timer(int value) {
 	glutPostRedisplay();
-    if (currentLevel != game.getLevel()) {
-        currentLevel = game.getLevel();
-        seconds = 0;
-        cleanSelectedMatrix();
-    }
+	if (currentLevel < game.getLevel()) {
+		if (changingLevel) {
+			if (seconds > -300) {
+				currentLevel = game.getLevel();
+				cleanSelectedMatrix();
+				seconds = 0;
+				changingLevel = false;
+			}
+		} else {
+			seconds = -500;
+			changingLevel = true;
+		}
+	}
 	seconds++;
 	if (game.getState() == STATE_PLAYING || game.getState() == STATE_GAMEOVER) {
 		glutTimerFunc(10, timer, 0);
@@ -173,12 +182,16 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 		for (int j=0; j < spheresPerRow; j++) {
 			
 			// select texture to paint the required solution
-			if ((game.isSet(i, j) && seconds >= 100 && seconds <= 300) || (selected[i][j] && game.isSet(i, j))) {
-				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_SELECTED]);
-			} else if (selected[i][j]) {
-				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_WRONG]);
-			} else {
+			if (changingLevel) {
 				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
+			} else {
+				if ((game.isSet(i, j) && seconds >= 100 && seconds <= 300) || (selected[i][j] && game.isSet(i, j))) {
+					glBindTexture(GL_TEXTURE_2D, textures[SPHERE_SELECTED]);
+				} else if (selected[i][j]) {
+					glBindTexture(GL_TEXTURE_2D, textures[SPHERE_WRONG]);
+				} else {
+					glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
+				}
 			}
 			
 			glPushMatrix();
@@ -210,6 +223,9 @@ void drawLevelAndScore() {
 void drawSpheresAndText() {
 	drawLevelAndScore();
 	int spheres = game.getActualSize();
+	if (changingLevel) {
+		spheres -= 1;
+	}
 	paintSpheres(spheres, spheres, fmin(X_MAX, Y_MAX));
 }
 
@@ -220,16 +236,34 @@ void drawFullScreenTexture(int texture) {
 	float z = 0.35;
 	glBegin(GL_QUADS);
 	glTexCoord2f(0, 1);
-	glVertex3f(-8, -6, z);
+	glVertex3f(X_MIN, Y_MIN, z);
 	glTexCoord2f(1, 1);
-	glVertex3f(8, -6, z);
+	glVertex3f(X_MAX, Y_MIN, z);
 	glTexCoord2f(1, 0);
-	glVertex3f(8, 6, z);
+	glVertex3f(X_MAX, Y_MAX, z);
 	glTexCoord2f(0, 0);
-	glVertex3f(-8, 6, z);
+	glVertex3f(X_MIN, Y_MAX, z);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
+
+//void drawCheckmark() {
+//	glEnable(GL_TEXTURE_2D);
+//	glBindTexture(GL_TEXTURE_2D, textures[CHECKMARK]);
+//	glColor3f(1, 1, 1);
+//	float z = 0.35;
+//	glBegin(GL_QUADS);
+//	glTexCoord2f(0, 1);
+//	glVertex3f(X_MIN/2, Y_MIN/2, z);
+//	glTexCoord2f(1, 1);
+//	glVertex3f(X_MAX/2, Y_MIN/2, z);
+//	glTexCoord2f(1, 0);
+//	glVertex3f(X_MAX/2, Y_MAX/2, z);
+//	glTexCoord2f(0, 0);
+//	glVertex3f(X_MIN/2, Y_MAX/2, z);
+//	glEnd();
+//	glDisable(GL_TEXTURE_2D);
+//}
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -237,6 +271,9 @@ void display() {
 	switch (game.getState()) {
 	case STATE_PLAYING:
 		drawSpheresAndText();
+		if (changingLevel) {
+			drawFullScreenTexture(CHECKMARK);
+		}
 		break;
 		
 	case STATE_PAUSED:
@@ -248,6 +285,7 @@ void display() {
 		}break;
 	
 	case STATE_GAMEOVER:
+		changingLevel = false;
 		if (seconds < 330) {
 			drawSpheresAndText();
 		} else if (seconds < 400) {
@@ -322,6 +360,9 @@ void init() {
 	glEnable(GL_NORMALIZE);
 	glDepthFunc(GL_LESS);
 	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(NUM_TEXTURES, textures);
@@ -347,6 +388,9 @@ void init() {
 	
 	sprintf(path,"%s%s", fullPath.c_str(), "game over.png");
 	textures[GAME_OVER] = loadTextureFromPath(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str(), "checkmark.png");
+	textures[CHECKMARK] = loadTextureFromPath(path);
 }
 
 int main(int argc, char** argv) {
