@@ -72,7 +72,9 @@ void timer(int value) {
         cleanSelectedMatrix();
     }
 	seconds++;
-	glutTimerFunc(10, timer, 0);
+	if (game.getState() == STATE_PLAYING || game.getState() == STATE_GAMEOVER) {
+		glutTimerFunc(10, timer, 0);
+	}
 }
 
 void draw3dString (void *font, char *str, float x, float y, float scale) {
@@ -249,7 +251,10 @@ void display() {
 			cleanSelectedMatrix();
 			drawFullScreenTexture(GAME_OVER);
 		} else {
+			game.restart();
+			game.restart();// Just one restart call doesn't reset the level?
 			game.pause();
+			seconds = 0;
 		}
 		break;
 	}
