@@ -42,22 +42,21 @@ Memoriae::Memoriae() {
     // seeding the random numbers
     srand ( unsigned (time(0)) );
     
-    // constructing
-	this->newBoard();
 	level = 0;
 	score = 0;
     tries = 0;
     subLevel = 0;
 	gameState = STATE_PLAYING;
+    this->newBoard();
 }
 
 void Memoriae::restart() {
-    this->newBoard();
     level = 0;
     score = 0;
     tries = 0;
     subLevel = 0;
     gameState = STATE_PLAYING;
+    this->newBoard();
 }
 
 void Memoriae::pause() {
@@ -83,7 +82,7 @@ void Memoriae::changeLevel() {
         subLevel = 0;
     }
     this->newBoard();
-    printf("Level changed to: %d/%d\n", subLevel, level);
+    printf("Level changed to: %d.%d\n", level + 1, subLevel + 1);
 }
 
 void Memoriae::selectSphereAt(int row, int col) {

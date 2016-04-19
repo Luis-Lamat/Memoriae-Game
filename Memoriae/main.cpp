@@ -190,7 +190,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 			if (changingLevel || changingSubLevel) {
 				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
 			} else {
-				if ((game.isSet(i, j) && seconds >= 100 && seconds <= 300) || (selected[i][j] && game.isSet(i, j))) {
+				if ((game.isSet(i, j) && seconds >= 100 && seconds <= 250) || (selected[i][j] && game.isSet(i, j))) {
 					glBindTexture(GL_TEXTURE_2D, textures[SPHERE_SELECTED]);
 				} else if (selected[i][j]) {
 					glBindTexture(GL_TEXTURE_2D, textures[SPHERE_WRONG]);
@@ -220,9 +220,14 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 }
 
 void drawLevelAndScore() {
+    char level[100] = "";
+    sprintf(level, "Nivel: %d (%d/%d)", game.getLevel() + 1,
+            game.getSubLevel() + 1, maxSubLevel);
+    draw3dString(GLUT_STROKE_ROMAN, level, -10.8, 7, 0.008);
+    
     char score[100] = "";
-    sprintf(score, "Nivel: %d", game.getLevel() + 1);
-    draw3dString(GLUT_STROKE_ROMAN, score, -10.8, 7, 0.008);
+    sprintf(score, "Score: %d", game.getScore());
+    draw3dString(GLUT_STROKE_ROMAN, score, 5, 7, 0.008);
 }
 
 void drawSpheresAndText() {
@@ -252,31 +257,14 @@ void drawFullScreenTexture(int texture) {
 	glDisable(GL_TEXTURE_2D);
 }
 
-//void drawCheckmark() {
-//	glEnable(GL_TEXTURE_2D);
-//	glBindTexture(GL_TEXTURE_2D, textures[CHECKMARK]);
-//	glColor3f(1, 1, 1);
-//	float z = 0.35;
-//	glBegin(GL_QUADS);
-//	glTexCoord2f(0, 1);
-//	glVertex3f(X_MIN/2, Y_MIN/2, z);
-//	glTexCoord2f(1, 1);
-//	glVertex3f(X_MAX/2, Y_MIN/2, z);
-//	glTexCoord2f(1, 0);
-//	glVertex3f(X_MAX/2, Y_MAX/2, z);
-//	glTexCoord2f(0, 0);
-//	glVertex3f(X_MIN/2, Y_MAX/2, z);
-//	glEnd();
-//	glDisable(GL_TEXTURE_2D);
-//}
-
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	switch (game.getState()) {
 	case STATE_PLAYING:
 		drawSpheresAndText();
-		if (changingLevel || changingSubLevel) {
+		if ((changingLevel || changingSubLevel) &&
+            (game.getLevel() + game.getSubLevel() > 0)) {
 			drawFullScreenTexture(CHECKMARK);
 		}
 		break;
@@ -297,10 +285,11 @@ void display() {
 		} else if (seconds < 400) {
 			drawFullScreenTexture(GAME_OVER);
 		} else {
-			game.restart();
 			game.restart();// Just one restart call doesn't reset the level?
 			game.pause();
 			seconds = 0;
+            currentLevel = 0;
+            currentSubLevel = 0;
 		}
         cleanSelectedMatrix();
 		break;
@@ -315,7 +304,7 @@ void mouseMoved(int x, int y){
 
 void mouseClicked(int button, int state, int x, int y){
 	if (game.getState() == STATE_PLAYING) {
-		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && seconds > 300){
+		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && seconds > 250){
 			translateClickToCoordinates(x, y);
 			if (x == -1 || y == -1) {
 				return;
