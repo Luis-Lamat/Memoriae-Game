@@ -26,13 +26,15 @@ using namespace std;
 
 #pragma mark - Textures
 /* ------------------------------- Textures --------------------------------- */
-const int NUM_TEXTURES = 6;
+const int NUM_TEXTURES = 8;
 const int MAIN_MENU = 0;
 const int SPHERE_DEFAULT = 1;
 const int SPHERE_SELECTED = 2;
 const int SPHERE_WRONG = 3;
 const int GAME_OVER = 4;
 const int CHECKMARK = 5;
+const int INSTRUCTIONS = 6;
+const int CREDITS = 7;
 GLuint textures[NUM_TEXTURES];
 
 #pragma mark - Global Variables
@@ -46,6 +48,7 @@ string fullPath = __FILE__;
 // Game logic helpers
 int seconds = 0, currentLevel = 0, currentSubLevel = 0;
 bool selected[10][10] = {0}, changingLevel, changingSubLevel;
+bool showInstructions, showCredits;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -122,12 +125,12 @@ void reshape(int w, int h) {
 	gluLookAt(0, 0, 1.1, 0, 0, 0, 0, 1, 0);
 }
 
-void translateClickToCoordinates(int &x, int &y){
-    float ball_num = game.getActualSize();
-	if (x > finalX || x < initialX) {
+void translateClickToCoordinates(int &x, int &y) {
+    float ball_num = game.getActualSize(), delta = 10;
+	if (x > finalX-delta || x < initialX+delta) {
 		x = -1;
 		return;
-	} else if (y > finalY || y < initialY) {
+	} else if (y > finalY-delta || y < initialY+delta) {
 		y = -1;
 		return;
 	}
@@ -221,7 +224,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 
 void drawLevelAndScore() {
     char level[100] = "";
-    sprintf(level, "Nivel: %d (%d/%d)", game.getLevel() + 1,
+    sprintf(level, "Level: %d (%d/%d)", game.getLevel() + 1,
             game.getSubLevel() + 1, maxSubLevel);
     draw3dString(GLUT_STROKE_ROMAN, level, -10.8, 7, 0.008);
     
@@ -270,7 +273,13 @@ void display() {
 		break;
 		
 	case STATE_PAUSED:
-		drawFullScreenTexture(MAIN_MENU);
+			if (showInstructions) {
+				drawFullScreenTexture(INSTRUCTIONS);
+			} else if (showCredits) {
+				drawFullScreenTexture(CREDITS);
+			} else {
+				drawFullScreenTexture(MAIN_MENU);
+			}
 		break;
 	
 	case STATE_WON:{
@@ -298,13 +307,48 @@ void display() {
 	glutSwapBuffers();
 }
 
-void mouseMoved(int x, int y){
+void keyboardFunc(unsigned char key, int x, int y) {
+	if (showInstructions || showCredits) {
+		return;
+	}
+	switch (key) {
+	case 'i':
+	case 'I':
+		showInstructions = true;
+		break;
+	case 'c':
+	case 'C':
+		showCredits = true;
+		break;
+	case 27:
+		if (game.getState() == STATE_PAUSED) {
+			exit(0);
+		}
+	}
+	glutPostRedisplay();
+}
+
+void keyboardUpFunc(unsigned char key, int x, int y) {
+	switch (key) {
+		case 'i':
+		case 'I':
+			showInstructions = false;
+			break;
+		case 'c':
+		case 'C':
+			showCredits = false;
+			break;
+	}
+	glutPostRedisplay();
+}
+
+void mouseMoved(int x, int y) {
 	// printf("Moved -> X: %d, Y: %d\n", x, y);
 }
 
-void mouseClicked(int button, int state, int x, int y){
-	if (game.getState() == STATE_PLAYING) {
-		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && seconds > 250){
+void mouseClicked(int button, int state, int x, int y) {
+	if (game.getState() == STATE_PLAYING && !showInstructions && !showCredits) {
+		if (button == GLUT_LEFT_BUTTON && state == GLUT_UP && seconds > 250){
 			translateClickToCoordinates(x, y);
 			if (x == -1 || y == -1) {
 				return;
@@ -371,7 +415,7 @@ void init() {
 	
 	// Load textures
 	char path[200];
-	sprintf(path,"%s%s", fullPath.c_str(), "bg.png");
+	sprintf(path,"%s%s", fullPath.c_str(), "main menu.png");
 	textures[MAIN_MENU] = loadTextureFromPath(path);
 	
 	sprintf(path,"%s%s", fullPath.c_str(), "purple.png");
@@ -388,6 +432,12 @@ void init() {
 	
 	sprintf(path,"%s%s", fullPath.c_str(), "checkmark.png");
 	textures[CHECKMARK] = loadTextureFromPath(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str(), "instructions.png");
+	textures[INSTRUCTIONS] = loadTextureFromPath(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str(), "credits.png");
+	textures[CREDITS] = loadTextureFromPath(path);
 }
 
 int main(int argc, char** argv) {
@@ -396,10 +446,12 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(screenWidth, screenHeight);
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow("Memoriae");
-    
-    glutPassiveMotionFunc(mouseMoved);
-    glutMouseFunc(mouseClicked);
-    
+
+	glutKeyboardFunc(keyboardFunc);
+	glutKeyboardUpFunc(keyboardUpFunc);
+	glutPassiveMotionFunc(mouseMoved);
+	glutMouseFunc(mouseClicked);
+
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);
 
