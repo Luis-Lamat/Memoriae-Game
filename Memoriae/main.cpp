@@ -44,8 +44,8 @@ const float Y_MAX = 6.0, Y_MIN = -6.0;
 string fullPath = __FILE__;
 
 // Game logic helpers
-int seconds = 0, currentLevel = 0;
-bool selected[10][10] = {0}, changingLevel;
+int seconds = 0, currentLevel = 0, currentSubLevel = 0;
+bool selected[10][10] = {0}, changingLevel, changingSubLevel;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -67,7 +67,7 @@ void cleanSelectedMatrix() {
 
 void timer(int value) {
 	glutPostRedisplay();
-	if (currentLevel < game.getLevel()) {
+	if (currentLevel != game.getLevel()) {
 		if (changingLevel) {
 			if (seconds > -300) {
 				currentLevel = game.getLevel();
@@ -76,10 +76,24 @@ void timer(int value) {
 				changingLevel = false;
 			}
 		} else {
-			seconds = -500;
+			seconds = -400;
 			changingLevel = true;
 		}
 	}
+    if (currentSubLevel != game.getSubLevel()) {
+        if (changingSubLevel) {
+            if (seconds > -300) {
+                currentSubLevel = game.getSubLevel();
+                printf("> Clearing SELECTED\n");
+                cleanSelectedMatrix();
+                seconds = 0;
+                changingSubLevel = false;
+            }
+        } else {
+            seconds = -400;
+            changingSubLevel = true;
+        }
+    }
 	seconds++;
 	if (game.getState() == STATE_PLAYING || game.getState() == STATE_GAMEOVER) {
 		glutTimerFunc(10, timer, 0);
@@ -182,7 +196,7 @@ void paintSpheres(int spheresPerRow, int spheresPerColumn, float maxWidth) {
 		for (int j=0; j < spheresPerRow; j++) {
 			
 			// select texture to paint the required solution
-			if (changingLevel) {
+			if (changingLevel || changingSubLevel) {
 				glBindTexture(GL_TEXTURE_2D, textures[SPHERE_DEFAULT]);
 			} else {
 				if ((game.isSet(i, j) && seconds >= 100 && seconds <= 300) || (selected[i][j] && game.isSet(i, j))) {
@@ -271,7 +285,7 @@ void display() {
 	switch (game.getState()) {
 	case STATE_PLAYING:
 		drawSpheresAndText();
-		if (changingLevel) {
+		if (changingLevel || changingSubLevel) {
 			drawFullScreenTexture(CHECKMARK);
 		}
 		break;
@@ -286,10 +300,10 @@ void display() {
 	
 	case STATE_GAMEOVER:
 		changingLevel = false;
+        changingSubLevel = false;
 		if (seconds < 330) {
 			drawSpheresAndText();
 		} else if (seconds < 400) {
-			cleanSelectedMatrix();
 			drawFullScreenTexture(GAME_OVER);
 		} else {
 			game.restart();
@@ -297,6 +311,7 @@ void display() {
 			game.pause();
 			seconds = 0;
 		}
+        cleanSelectedMatrix();
 		break;
 	}
 	
@@ -315,8 +330,10 @@ void mouseClicked(int button, int state, int x, int y){
 				return;
 			}
 			printf("Clicked -> Row: %d, Col: %d\n", y, x);
-			game.selectSphereAt(y,x);
-			selected[y][x] = true;
+            if (!selected[y][x]){
+                game.selectSphereAt(y,x);
+                selected[y][x] = true;
+            }
 			if (game.getState() == STATE_GAMEOVER) {
 				seconds = 301;
 			}

@@ -47,6 +47,7 @@ Memoriae::Memoriae() {
 	level = 0;
 	score = 0;
     tries = 0;
+    subLevel = 0;
 	gameState = STATE_PLAYING;
 }
 
@@ -55,6 +56,7 @@ void Memoriae::restart() {
     level = 0;
     score = 0;
     tries = 0;
+    subLevel = 0;
     gameState = STATE_PLAYING;
 }
 
@@ -74,9 +76,14 @@ void Memoriae::gameOver() {
 void Memoriae::changeLevel() {
     if (gameState != STATE_PLAYING) Error::notPlaying();
     tries = 0;
-    level++;
+    if (subLevel < 2) {
+        subLevel++;
+    } else {
+        level++;
+        subLevel = 0;
+    }
     this->newBoard();
-    printf("Level changed to: %d\n", level);
+    printf("Level changed to: %d/%d\n", subLevel, level);
 }
 
 void Memoriae::selectSphereAt(int row, int col) {

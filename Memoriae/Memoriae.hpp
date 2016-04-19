@@ -25,6 +25,7 @@ using namespace std;
 
 const int matrixSize = 10;
 const int startingMatrixSize = 3;
+const int maxSubLevel = 3;
 
 typedef enum {
     STATE_PLAYING,
@@ -42,6 +43,7 @@ private:
 	int level;
 	int score;
     int tries;
+    int subLevel;
 	State gameState;
 	
     // Helper functions
@@ -57,6 +59,7 @@ public:
     void newBoard();    // Resets board and creates new pattern
     
     int getLevel()      { return level; };
+    int getSubLevel()   { return subLevel; };
     int getActualSize() { return level + startingMatrixSize; };
     int getScore()      { return score; };
     State getState()    { return gameState; };
