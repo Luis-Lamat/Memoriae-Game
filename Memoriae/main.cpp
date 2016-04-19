@@ -65,35 +65,26 @@ void cleanSelectedMatrix() {
 	}
 }
 
-void timer(int value) {
-	glutPostRedisplay();
-	if (currentLevel != game.getLevel()) {
-		if (changingLevel) {
-			if (seconds > -300) {
-				currentLevel = game.getLevel();
-				cleanSelectedMatrix();
-				seconds = 0;
-				changingLevel = false;
-			}
-		} else {
-			seconds = -400;
-			changingLevel = true;
-		}
-	}
-    if (currentSubLevel != game.getSubLevel()) {
-        if (changingSubLevel) {
+void validateLevelChange(int &last, int current, bool &cond){
+    if (last != current) {
+        if (cond) {
             if (seconds > -300) {
-                currentSubLevel = game.getSubLevel();
-                printf("> Clearing SELECTED\n");
+                last = current;
                 cleanSelectedMatrix();
                 seconds = 0;
-                changingSubLevel = false;
+                cond = false;
             }
         } else {
             seconds = -400;
-            changingSubLevel = true;
+            cond = true;
         }
     }
+}
+
+void timer(int value) {
+	glutPostRedisplay();
+    validateLevelChange(currentLevel, game.getLevel(), changingLevel);
+    validateLevelChange(currentSubLevel, game.getSubLevel(), changingSubLevel);
 	seconds++;
 	if (game.getState() == STATE_PLAYING || game.getState() == STATE_GAMEOVER) {
 		glutTimerFunc(10, timer, 0);
