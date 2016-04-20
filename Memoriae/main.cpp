@@ -378,13 +378,13 @@ void mouseClicked(int button, int state, int x, int y) {
 			}
 			printf("Clicked -> Row: %d, Col: %d\n", y, x);
             if (!selected[y][x]){
-                game.selectSphereAt(y,x);
                 selected[y][x] = true;
                 if (game.isSet(y, x)) {
                     soundPlayer.playClickSound();
                 } else {
                     soundPlayer.playBadClickSound();
                 }
+                game.selectSphereAt(y,x); // game mechanic
             }
 			if (game.getState() == STATE_GAMEOVER) {
 				seconds = 301;
