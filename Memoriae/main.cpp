@@ -22,7 +22,7 @@ using namespace std;
 
 #pragma mark - Textures
 /* ------------------------------- Textures --------------------------------- */
-const int NUM_TEXTURES = 8;
+const int NUM_TEXTURES = 9;
 const int MAIN_MENU = 0;
 const int SPHERE_DEFAULT = 1;
 const int SPHERE_SELECTED = 2;
@@ -31,6 +31,7 @@ const int GAME_OVER = 4;
 const int CHECKMARK = 5;
 const int INSTRUCTIONS = 6;
 const int CREDITS = 7;
+const int WINNER = 8;
 GLuint textures[NUM_TEXTURES];
 
 #pragma mark - Global Variables
@@ -298,9 +299,9 @@ void display() {
 			}
 		break;
 	
-	case STATE_WON:{
-		printf("");
-		}break;
+	case STATE_WON:
+		drawFullScreenTexture(WINNER);
+		break;
 	
 	case STATE_GAMEOVER:
 		changingLevel = false;
@@ -456,6 +457,9 @@ void init() {
 	
 	sprintf(path,"%s%s", fullPath.c_str(), "credits.png");
 	textures[CREDITS] = loadTextureFromPath(path);
+	
+	sprintf(path,"%s%s", fullPath.c_str(), "winner.png");
+	textures[WINNER] = loadTextureFromPath(path);
 }
 
 int main(int argc, char *argv[]) {
