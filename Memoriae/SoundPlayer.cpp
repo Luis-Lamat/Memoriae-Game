@@ -30,8 +30,14 @@ SoundPlayer::SoundPlayer(){
         Error::soundLoadError("chime", Mix_GetError());
     }
     
+    char gameOverSoundPath[300];
+    sprintf(gameOverSoundPath,"%s%s", path.c_str() , "game_over.wav");
+    gameOverSound = Mix_LoadWAV(gameOverSoundPath);
+    if(gameOverSound == NULL){
+        Error::soundLoadError("game_over", Mix_GetError());
+    }
+    
     music = NULL;
-    gameOverSound = NULL;
 }
 
 void SoundPlayer::playClickSound(){
@@ -40,6 +46,10 @@ void SoundPlayer::playClickSound(){
 
 void SoundPlayer::playTransitionSound(){
     Mix_PlayChannel(3, transitionSound, 0);
+}
+
+void SoundPlayer::playGameOverSound(){
+    Mix_PlayChannel(4, gameOverSound, 0);
 }
 
 void SoundPlayer::closeSounds(){

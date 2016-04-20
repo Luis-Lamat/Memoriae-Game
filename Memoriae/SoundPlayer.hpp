@@ -32,6 +32,7 @@ public:
     SoundPlayer();
     void playClickSound();
     void playTransitionSound();
+    void playGameOverSound();
     void closeSounds();
     string getAssetsPath();
     

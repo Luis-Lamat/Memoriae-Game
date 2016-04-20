@@ -65,6 +65,7 @@
 		CAB8107C1CC710C5001221C4 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
 		CAB8107F1CC712CE001221C4 /* floop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = floop.wav; sourceTree = "<group>"; };
 		CAB810801CC712DA001221C4 /* chime.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chime.wav; sourceTree = "<group>"; };
+		CAB810821CC72A06001221C4 /* game_over.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = game_over.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				CAB810801CC712DA001221C4 /* chime.wav */,
+				CAB810821CC72A06001221C4 /* game_over.wav */,
 				CAB8107F1CC712CE001221C4 /* floop.wav */,
 			);
 			name = sounds;

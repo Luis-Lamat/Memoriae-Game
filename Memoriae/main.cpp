@@ -44,7 +44,8 @@ string fullPath = __FILE__;
 // Game logic helpers
 int seconds = 0, currentLevel = 0, currentSubLevel = 0;
 bool selected[10][10] = {0}, changingLevel, changingSubLevel;
-bool showInstructions, showCredits, transitionSound = false;
+bool showInstructions, showCredits;
+bool transitionSound = false, gsmeOverSound = false;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -311,12 +312,17 @@ void display() {
 		} else if (seconds < 480) {
 			cleanSelectedMatrix();
 			drawFullScreenTexture(GAME_OVER);
+            if (!gsmeOverSound) {
+                soundPlayer.playGameOverSound();
+                gsmeOverSound = true;
+            }
 		} else {
 			game.restart();// Just one restart call doesn't reset the level?
 			game.pause();
 			seconds = 0;
             currentLevel = 0;
             currentSubLevel = 0;
+            gsmeOverSound = false;
 		}
 		break;
 	}
