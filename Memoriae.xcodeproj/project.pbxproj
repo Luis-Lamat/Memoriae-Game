@@ -16,6 +16,9 @@
 		CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B51C991B1900D43AB4 /* OpenGL.framework */; };
 		CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA5973B71C991B2200D43AB4 /* OpenAL.framework */; };
 		CA5973BB1C99219C00D43AB4 /* Memoriae.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA5973B91C99219B00D43AB4 /* Memoriae.cpp */; };
+		CAB810781CC70BAF001221C4 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB810771CC70BAF001221C4 /* SDL2.framework */; };
+		CAB8107B1CC70CE4001221C4 /* SoundPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAB810791CC70CE4001221C4 /* SoundPlayer.cpp */; };
+		CAB8107D1CC710C5001221C4 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB8107C1CC710C5001221C4 /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +59,12 @@
 		CA5973B71C991B2200D43AB4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		CA5973B91C99219B00D43AB4 /* Memoriae.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memoriae.cpp; sourceTree = "<group>"; };
 		CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Memoriae.hpp; sourceTree = "<group>"; };
+		CAB810771CC70BAF001221C4 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		CAB810791CC70CE4001221C4 /* SoundPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundPlayer.cpp; sourceTree = "<group>"; };
+		CAB8107A1CC70CE4001221C4 /* SoundPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundPlayer.hpp; sourceTree = "<group>"; };
+		CAB8107C1CC710C5001221C4 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
+		CAB8107F1CC712CE001221C4 /* floop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = floop.wav; sourceTree = "<group>"; };
+		CAB810801CC712DA001221C4 /* chime.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chime.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAB8107D1CC710C5001221C4 /* SDL2_mixer.framework in Frameworks */,
+				CAB810781CC70BAF001221C4 /* SDL2.framework in Frameworks */,
 				CA5973B81C991B2200D43AB4 /* OpenAL.framework in Frameworks */,
 				CA5973B61C991B1900D43AB4 /* OpenGL.framework in Frameworks */,
 				CA5973B41C991B1100D43AB4 /* GLUT.framework in Frameworks */,
@@ -92,6 +103,8 @@
 		CA5973A01C991A3F00D43AB4 = {
 			isa = PBXGroup;
 			children = (
+				CAB8107C1CC710C5001221C4 /* SDL2_mixer.framework */,
+				CAB810771CC70BAF001221C4 /* SDL2.framework */,
 				CA5973B71C991B2200D43AB4 /* OpenAL.framework */,
 				CA5973B51C991B1900D43AB4 /* OpenGL.framework */,
 				CA5973B31C991B1100D43AB4 /* GLUT.framework */,
@@ -112,10 +125,21 @@
 			isa = PBXGroup;
 			children = (
 				93F2BEA11CB0467B00EBCDD9 /* SOIL */,
+				CAB8107E1CC7126C001221C4 /* images */,
+				CAB810811CC712EB001221C4 /* sounds */,
 				CA5973AC1C991A4000D43AB4 /* main.cpp */,
+				CAB810791CC70CE4001221C4 /* SoundPlayer.cpp */,
+				CAB8107A1CC70CE4001221C4 /* SoundPlayer.hpp */,
 				CA5973BA1C99219C00D43AB4 /* Memoriae.hpp */,
 				CA5973B91C99219B00D43AB4 /* Memoriae.cpp */,
 				CA1AC63F1CADA20100D8E247 /* Error.hpp */,
+			);
+			path = Memoriae;
+			sourceTree = "<group>";
+		};
+		CAB8107E1CC7126C001221C4 /* images */ = {
+			isa = PBXGroup;
+			children = (
 				9387FA0B1CC6EB7100A94EFE /* main menu.png */,
 				9387FA0C1CC6F05700A94EFE /* credits.png */,
 				9387FA0D1CC6F84200A94EFE /* instructions.png */,
@@ -124,7 +148,16 @@
 				93ED94781CC1AE680015969B /* purple.png */,
 				93ED94791CC1AE680015969B /* red.png */,
 			);
-			path = Memoriae;
+			name = images;
+			sourceTree = "<group>";
+		};
+		CAB810811CC712EB001221C4 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				CAB810801CC712DA001221C4 /* chime.wav */,
+				CAB8107F1CC712CE001221C4 /* floop.wav */,
+			);
+			name = sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +220,7 @@
 				CA5973AD1C991A4000D43AB4 /* main.cpp in Sources */,
 				93F2BEB41CB04AEA00EBCDD9 /* image_DXT.c in Sources */,
 				93F2BEB51CB04AEA00EBCDD9 /* image_helper.c in Sources */,
+				CAB8107B1CC70CE4001221C4 /* SoundPlayer.cpp in Sources */,
 				93F2BEB11CB04AE600EBCDD9 /* SOIL.c in Sources */,
 				93F2BEB21CB04AE600EBCDD9 /* stb_image_aug.c in Sources */,
 			);
@@ -277,6 +311,10 @@
 		CA5973B11C991A4000D43AB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -285,6 +323,10 @@
 		CA5973B21C991A4000D43AB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

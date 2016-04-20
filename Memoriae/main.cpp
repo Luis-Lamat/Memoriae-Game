@@ -14,11 +14,7 @@
 
 //http://www.lonesock.net/soil.html
 #include "SOIL/SOIL.h"
-
 #include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <string>
 #include <math.h>
 #include "Memoriae.hpp"
 
@@ -48,7 +44,7 @@ string fullPath = __FILE__;
 // Game logic helpers
 int seconds = 0, currentLevel = 0, currentSubLevel = 0;
 bool selected[10][10] = {0}, changingLevel, changingSubLevel;
-bool showInstructions, showCredits;
+bool showInstructions, showCredits, transitionSound = false;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -57,6 +53,9 @@ float initialY = sliceY, finalY = sliceY * 5;
 
 // Game object
 Memoriae game;
+
+// Sound player object
+SoundPlayer soundPlayer;
 
 #pragma mark - Functions
 /* ------------------------------- Functions -------------------------------- */
@@ -279,7 +278,14 @@ void display() {
 		if ((changingLevel || changingSubLevel) &&
             (game.getLevel() + game.getSubLevel() > 0)) {
 			drawFullScreenTexture(CHECKMARK);
+            if (!transitionSound) {
+                soundPlayer.playTransitionSound();
+                transitionSound = true;
+            }
 		}
+        if (!changingLevel && !changingSubLevel) {
+            transitionSound = false;
+        }
 		break;
 		
 	case STATE_PAUSED:
@@ -368,6 +374,7 @@ void mouseClicked(int button, int state, int x, int y) {
             if (!selected[y][x]){
                 game.selectSphereAt(y,x);
                 selected[y][x] = true;
+                soundPlayer.playClickSound();
             }
 			if (game.getState() == STATE_GAMEOVER) {
 				seconds = 301;
@@ -423,8 +430,8 @@ void init() {
 	for (int i = (int)fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
 		fullPath.erase(i,1);
 	}
-	
-	// Load textures
+
+    // Load textures
 	char path[200];
 	sprintf(path,"%s%s", fullPath.c_str(), "main menu.png");
 	textures[MAIN_MENU] = loadTextureFromPath(path);
@@ -451,7 +458,7 @@ void init() {
 	textures[CREDITS] = loadTextureFromPath(path);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(screenWidth, screenHeight);

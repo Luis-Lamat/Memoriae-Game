@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+using namespace std;
 
 #endif /* Error_hpp */
 
@@ -24,5 +25,9 @@ public:
     
     static void notPlaying(){
         printf("Error: game is not int the PLAY state\n");
-    }
+    };
+    
+    static void soundLoadError(string sound, const char *error){
+        printf("Failed to load %s sound! SDL_mixer Error: %s\n", sound.c_str(), error);
+    };
 };

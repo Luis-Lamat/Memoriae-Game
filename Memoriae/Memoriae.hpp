@@ -9,12 +9,12 @@
 #ifndef Memoriae_hpp
 #define Memoriae_hpp
 
+#include "SoundPlayer.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
-#include "Error.hpp"
 using namespace std;
 
 #endif /* Memoriae_hpp */
