@@ -45,7 +45,7 @@ string fullPath = __FILE__;
 int seconds = 0, currentLevel = 0, currentSubLevel = 0;
 bool selected[10][10] = {0}, changingLevel, changingSubLevel;
 bool showInstructions, showCredits;
-bool transitionSound = false, gsmeOverSound = false;
+bool transitionSound = false, gameOverSound = false;
 
 // Game view matrix sizes (pixels)
 float sliceX = screenWidth/4.0f, sliceY = screenHeight/6.0f;
@@ -312,9 +312,9 @@ void display() {
 		} else if (seconds < 480) {
 			cleanSelectedMatrix();
 			drawFullScreenTexture(GAME_OVER);
-            if (!gsmeOverSound) {
+            if (!gameOverSound) {
                 soundPlayer.playGameOverSound();
-                gsmeOverSound = true;
+                gameOverSound = true;
             }
 		} else {
 			game.restart();// Just one restart call doesn't reset the level?
@@ -322,7 +322,7 @@ void display() {
 			seconds = 0;
             currentLevel = 0;
             currentSubLevel = 0;
-            gsmeOverSound = false;
+            gameOverSound = false;
 		}
 		break;
 	}
@@ -380,7 +380,11 @@ void mouseClicked(int button, int state, int x, int y) {
             if (!selected[y][x]){
                 game.selectSphereAt(y,x);
                 selected[y][x] = true;
-                soundPlayer.playClickSound();
+                if (game.isSet(y, x)) {
+                    soundPlayer.playClickSound();
+                } else {
+                    soundPlayer.playBadClickSound();
+                }
             }
 			if (game.getState() == STATE_GAMEOVER) {
 				seconds = 301;

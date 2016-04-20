@@ -24,6 +24,7 @@ class SoundPlayer {
     string soundFilePath = __FILE__;
     Mix_Music *music;
     Mix_Chunk *clickSound;
+    Mix_Chunk *wrongSound;
     Mix_Chunk *transitionSound;
     Mix_Chunk *gameOverSound;
     
@@ -33,6 +34,7 @@ public:
     void playClickSound();
     void playTransitionSound();
     void playGameOverSound();
+    void playBadClickSound();
     void closeSounds();
     string getAssetsPath();
     

@@ -36,6 +36,13 @@ SoundPlayer::SoundPlayer(){
     if(gameOverSound == NULL){
         Error::soundLoadError("game_over", Mix_GetError());
     }
+
+    char badClickSoundPath[300];
+    sprintf(badClickSoundPath,"%s%s", path.c_str() , "wrong.wav");
+    wrongSound = Mix_LoadWAV(badClickSoundPath);
+    if(wrongSound == NULL){
+        Error::soundLoadError("wrong", Mix_GetError());
+    }
     
     music = NULL;
 }
@@ -50,6 +57,10 @@ void SoundPlayer::playTransitionSound(){
 
 void SoundPlayer::playGameOverSound(){
     Mix_PlayChannel(4, gameOverSound, 0);
+}
+
+void SoundPlayer::playBadClickSound(){
+    Mix_PlayChannel(5, wrongSound, 0);
 }
 
 void SoundPlayer::closeSounds(){
