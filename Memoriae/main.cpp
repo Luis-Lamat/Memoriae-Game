@@ -68,6 +68,16 @@ void cleanSelectedMatrix() {
 	}
 }
 
+void selectCorrectAnswer() {
+	for (int i = 0; i < game.getActualSize(); i++) {
+		for (int j = 0; j < game.getActualSize(); j++) {
+			if (!selected[i][j]) {
+				selected[i][j] = game.isSet(i, j);
+			}
+		}
+	}
+}
+
 void validateLevelChange(int &last, int current, bool &cond){
     if (last != current) {
         if (cond) {
@@ -289,9 +299,11 @@ void display() {
 	case STATE_GAMEOVER:
 		changingLevel = false;
         changingSubLevel = false;
-		if (seconds < 330) {
+		if (seconds < 400) {
+			selectCorrectAnswer();
 			drawSpheresAndText();
-		} else if (seconds < 400) {
+		} else if (seconds < 480) {
+			cleanSelectedMatrix();
 			drawFullScreenTexture(GAME_OVER);
 		} else {
 			game.restart();// Just one restart call doesn't reset the level?
@@ -300,7 +312,6 @@ void display() {
             currentLevel = 0;
             currentSubLevel = 0;
 		}
-        cleanSelectedMatrix();
 		break;
 	}
 	
